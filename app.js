@@ -2,9 +2,9 @@ if (process.env.NODE_ENV != 'production') {
     require('dotenv').config() 
 }
 
-console.log("CLOUD_NAME =", process.env.CLOUD_NAME);
-console.log("CLOUD_API_KEY =", process.env.CLOUD_API_KEY);
-console.log("CLOUD_API_SECRET =", process.env.CLOUD_API_SECRET);
+// console.log("CLOUD_NAME =", process.env.CLOUD_NAME);
+// console.log("CLOUD_API_KEY =", process.env.CLOUD_API_KEY);
+// console.log("CLOUD_API_SECRET =", process.env.CLOUD_API_SECRET);
 
 
 const express = require("express")
@@ -30,17 +30,21 @@ const { register } = require("module")
 
 
 app.set("view engine", "ejs");
+
 app.set("views", path.join(__dirname, "views"))
+
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, '/public')));
+
 app.use(methodOverride('_method'));
+
 app.engine('ejs', ejsmate)
 
 
 
 
-const Mongo_url = 'mongodb://127.0.0.1:27017/WanderLust'
-
+const dbUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/WanderLust';
 
 
 
@@ -52,14 +56,14 @@ main()
 .catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect(Mongo_url);
+    await mongoose.connect(dbUrl);
 }
 
 
 
 
 const sessionOption = {
-    secret: "mysecret",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -137,6 +141,7 @@ app.use((err, req, res, next) => {
 
 
 
-app.listen(8000, () => {
-    console.log("Server started on 8000")
-})
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+});

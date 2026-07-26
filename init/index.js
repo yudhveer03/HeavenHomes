@@ -2,17 +2,17 @@
     const initData = require('./data');
     const Listing = require('../model/listing.js')
 
-    const Mongo_url ='mongodb://127.0.0.1:27017/WanderLust'
+                    const Mongo_url = process.env.
 
-    main()
-        .then(() => {
-            console.log("Connection Successfull");
-        })
-        .catch((err) => console.log(err));
+                    main()
+                        .then(() => {
+                                     console.log("Connection Successfull");
+                        })
+                        .catch((err) => console.log(err));
 
-    async function main() {
-        await mongoose.connect(Mongo_url);
-    }
+                    async function main() {
+                        await mongoose.connect(Mongo_url);
+                    }
 
 const initDB = async () => {
     await Listing.deleteMany({});

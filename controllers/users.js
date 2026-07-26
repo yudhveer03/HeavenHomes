@@ -8,6 +8,7 @@ module.exports.renderSignupForm = async (req, res) => {
 }
 
 
+
 module.exports.signup = async (req, res) => {
     try {
         let { username, password, email } = req.body
